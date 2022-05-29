@@ -1,5 +1,6 @@
 package com.shi.candlelight.controller;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,4 +11,9 @@ public class TestController {
     public String hello(){
         return "candlelight";
     }
+    @PostMapping("/hello/post")
+    public String hellopost(String name){
+        return "candlelight"+ name;
+    }
+
 }
