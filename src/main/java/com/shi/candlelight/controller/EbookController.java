@@ -1,6 +1,7 @@
 package com.shi.candlelight.controller;
 
 import com.shi.candlelight.pojo.Ebook;
+import com.shi.candlelight.resp.CommonResp;
 import com.shi.candlelight.service.EbookService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +15,12 @@ public class EbookController {
     private EbookService ebookService;
 
     @RequestMapping("/ebook/list")//配置接口对于的请求地址 常用的四种请求可以配置value method请求方式
-    public List<Ebook> list(){
-        return ebookService.list();
+    public CommonResp list() {
+        CommonResp<List<Ebook>> resp = new CommonResp<>();
+        //将返回指封装到返回指结果类中返回 方便前端校验
+        List<Ebook> list = ebookService.list();
+        resp.setContent(list);//返回泛型数据，自定义类型
+        return resp;
     }
 
 }
