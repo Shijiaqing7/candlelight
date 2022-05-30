@@ -4,7 +4,7 @@ public class Test {
     private Integer id;
     private String name;
     private Integer password;
-    private Integer nmb;
+
     public Test(){}
 
     public Integer getId() {
@@ -31,12 +31,6 @@ public class Test {
         this.password = password;
     }
 
-    public Integer getNmb() {
-        return nmb;
-    }
 
-    public void setNmb(Integer nmb) {
-        this.nmb = nmb;
-    }
 }
 
