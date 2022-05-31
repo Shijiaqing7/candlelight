@@ -46,9 +46,9 @@
       </a-menu>
     </a-layout-sider>
     <a-layout-content
-        :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+        :style="{ background: '#fff', padding: '25px', margin: 0, minHeight: '450px' }"
     >
-      <a-list item-layout="vertical" size="large" :grid="{ gutter: 16, column: 3 }" :data-source="ebooks">
+      <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks">
 
         <template #renderItem="{ item }">
           <a-list-item key="item.name">
@@ -98,7 +98,7 @@ export default defineComponent({
     //生命周期函数
     onMounted(function () {
       console.log("onmounted")
-      axios.get("http://localhost:8880/ebook/list?name=spri").then(function (response){
+      axios.get("http://localhost:8880/ebook/list").then(function (response){
         const data = response.data//从response中拿data封装到data
         ebooks.value=data.content;//给ebook赋值为content 是前端返回指类型中的content
         console.log(response);
