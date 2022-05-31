@@ -55,12 +55,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
-
+import axios from 'axios'//导入axios库
 export default defineComponent({
   name: 'Home',
-  components: {
+  //组件加载初始会执行setup
+  setup(){
+    console.log("setup");
+    axios.get("http://localhost:8880/ebook/list?name=spri").then(function (response){
+      console.log(response);
 
-  },
+    })
+  }
 });
 </script>
