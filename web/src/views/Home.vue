@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <a-button danger ghost>Danger</a-button>
+    <a-button type="link">Link Button</a-button>
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
