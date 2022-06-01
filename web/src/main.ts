@@ -10,6 +10,7 @@ import axios from 'axios';
 axios.defaults.baseURL = process.env.VUE_APP_SERVER;//设置全局baseurl
 
 
+
 const app = createApp(App);
 app.use(store).use(router).use(Antd).mount('#app');
 
