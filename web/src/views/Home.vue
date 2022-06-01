@@ -98,7 +98,7 @@ export default defineComponent({
     //生命周期函数
     onMounted(function () {
       console.log("onmounted")
-      axios.get("http://localhost:8880/ebook/list").then(function (response){
+      axios.get(process.env.VUE_APP_SERVER + "/ebook/list").then(function (response){
         const data = response.data//从response中拿data封装到data
         ebooks.value=data.content;//给ebook赋值为content 是前端返回指类型中的content
         console.log(response);
