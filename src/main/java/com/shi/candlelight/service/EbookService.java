@@ -1,5 +1,7 @@
 package com.shi.candlelight.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shi.candlelight.mapper.EbookMapper;
 import com.shi.candlelight.pojo.Ebook;
 import com.shi.candlelight.pojo.EbookExample;
@@ -26,7 +28,10 @@ public class EbookService {
         if(!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
+        PageHelper.startPage(1,3);//第几页 第几条
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
+        PageInfo<Ebook> ebookPageInfo = new PageInfo<>(ebookList);
+        ebookPageInfo.getTotal();//总页数
         //List<EbookResp> respList = new ArrayList<>();
         //for (Ebook ebook : ebookList) {
             //EbookResp ebookResp = new EbookResp();
