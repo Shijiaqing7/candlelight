@@ -98,9 +98,14 @@ export default defineComponent({
     //生命周期函数
     onMounted(function () {
       console.log("onmounted")
-      axios.get("/ebook/list").then(function (response){
+      axios.get("/ebook/list",{
+        params:{
+          page:1,
+          size:100
+        }
+      }).then(function (response){
         const data = response.data//从response中拿data封装到data
-        ebooks.value=data.content;//给ebook赋值为content 是前端返回指类型中的content
+        ebooks.value=data.content.list;//给ebook赋值为content 是前端返回指类型中的content
         console.log(response);
       });
     })

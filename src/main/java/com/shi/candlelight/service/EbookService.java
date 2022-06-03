@@ -24,7 +24,7 @@ public class EbookService {
     @Resource//将ebookmapper注入进来也可以用jdk自带的resource
     private EbookMapper ebookMapper;
     public PageResp<EbookResp> list(EbookReq req){
-        EbookExample ebookExample = new EbookExample();
+        EbookExample ebookExample = new EbookExample();//用于添加条件
         EbookExample.Criteria criteria = ebookExample.createCriteria();
         //动态sql判断是否请求了name 如果没有则不查询 如果有则模糊查询
         if(!ObjectUtils.isEmpty(req.getName())) {
