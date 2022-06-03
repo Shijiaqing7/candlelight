@@ -20,7 +20,7 @@
 
         <template v-slot:action="{ text, record }">
           <a-space size="small">
-            <a-button type="primary" @click="edit">
+            <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
               <a-button type="danger">
@@ -38,6 +38,20 @@
       @ok="handleModalOk"
   >
     <p>test</p>
+    <a-form :model="ebook" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form-item label="封面">
+        <a-input v-model:value="ebook.cover" />
+      </a-form-item>
+      <a-form-item label="名称">
+        <a-input v-model:value="ebook.name" />
+      </a-form-item>
+      <a-form-item label="分类">
+
+      </a-form-item>
+      <a-form-item label="描述">
+        <a-input v-model:value="ebook.description" type="textarea" />
+      </a-form-item>
+    </a-form>
   </a-modal>
 </template>
 
@@ -126,6 +140,9 @@ export default defineComponent({
      * 数组，[100, 101]对应：前端开发 / Vue
      */
 
+    const ebook = ref({});
+      
+
     const modalVisible = ref(false);
     const modalLoading = ref(false);
     const handleModalOk = () => {
@@ -138,8 +155,9 @@ export default defineComponent({
     /**
      * 编辑
      */
-    const edit =()=>{
+    const edit =(record:any)=>{
       modalVisible.value=true;
+      ebook.value=record;
     };
 
     onMounted(() => {
@@ -159,6 +177,7 @@ export default defineComponent({
 
       edit,
 
+      ebook,
       modalVisible,
       modalLoading,
       handleModalOk,
