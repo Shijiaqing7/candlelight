@@ -5,17 +5,15 @@ import com.github.pagehelper.PageInfo;
 import com.shi.candlelight.mapper.EbookMapper;
 import com.shi.candlelight.pojo.Ebook;
 import com.shi.candlelight.pojo.EbookExample;
-import com.shi.candlelight.req.EbookReq;
-import com.shi.candlelight.req.PageReq;
-import com.shi.candlelight.resp.EbookResp;
+import com.shi.candlelight.req.EbookQueryReq;
+import com.shi.candlelight.req.EbookSaveReq;
+import com.shi.candlelight.resp.EbookQueryResp;
 import com.shi.candlelight.resp.PageResp;
 import com.shi.candlelight.util.CopyUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 //一般将逻辑处理写在service
@@ -23,7 +21,7 @@ import java.util.List;
 public class EbookService {
     @Resource//将ebookmapper注入进来也可以用jdk自带的resource
     private EbookMapper ebookMapper;
-    public PageResp<EbookResp> list(EbookReq req){
+    public PageResp<EbookQueryResp> list(EbookQueryReq req){
         EbookExample ebookExample = new EbookExample();//用于添加条件
         EbookExample.Criteria criteria = ebookExample.createCriteria();
         //动态sql判断是否请求了name 如果没有则不查询 如果有则模糊查询
@@ -46,14 +44,36 @@ public class EbookService {
         //}
 
         //工具类列表复制
-        List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
+        List<EbookQueryResp> list = CopyUtil.copyList(ebookList, EbookQueryResp.class);
 
 
-        PageResp<EbookResp> pageResp = new PageResp<>();
+        PageResp<EbookQueryResp> pageResp = new PageResp<>();
         pageResp.setTotal(ebookPageInfo.getTotal());
         pageResp.setList(list);
 
         return pageResp;
         }
+    /**
+     * 保存sevice
+     */
+    //请求参数是ebooksavereq 变量为req
+    public void save(EbookSaveReq req){
+        Ebook ebook = CopyUtil.copy(req,Ebook.class);//将请求参数数据传到ebook中
+        //判断是新增数据还是更新数据
+        if(ObjectUtils.isEmpty(req.getId())){
+            //通过请求参数中id是否有值来判断
+            //新增
+            ebookMapper.insert(ebook);//调用insert新增
+
+        }else {
+            //更新
+            ebookMapper.updateByPrimaryKey(ebook);//调用mapper新增数据 updatebyprimarykey根据id新增
+            //因为这个类的参数是Ebook 所以需要将请求类中的数据copy到ebook中 再更新竟来
+        }
+
+
+
     }
+
+}
 

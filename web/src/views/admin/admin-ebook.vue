@@ -146,11 +146,21 @@ export default defineComponent({
     const modalVisible = ref(false);
     const modalLoading = ref(false);
     const handleModalOk = () => {
-      modalLoading.value = true;
-      setTimeout(()=>{
-        modalLoading.value=false;
-        modalVisible.value=false
-      },2000);
+      modalLoading.value = true;//点击ok是显示一个效果true，拿到结果后在将效果去掉 loading框也去掉
+      axios.post("/ebook/save", ebook.value).then((response) => {
+
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          modalVisible.value = false;
+          modalLoading.value = false;
+
+          // 重新加载列表
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        }
+      });
     };
     /**
      * 编辑
