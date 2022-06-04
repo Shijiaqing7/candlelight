@@ -3,6 +3,11 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
+      <p>
+        <a-button type="primary" @click="add()" size="large">
+          新增数据
+        </a-button>
+      </p>
 
       <a-table
           :columns="columns"
@@ -23,9 +28,18 @@
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
+            <a-popconfirm
+                title="Are you sure delete this task?"
+                ok-text="Yes"
+                cancel-text="No"
+                @confirm="handleDelete(record.id)"
+
+            >
               <a-button type="danger">
                 删除
               </a-button>
+            </a-popconfirm>
+
           </a-space>
         </template>
       </a-table>
@@ -45,9 +59,22 @@
       <a-form-item label="名称">
         <a-input v-model:value="ebook.name" />
       </a-form-item>
-      <a-form-item label="分类">
-
+      <a-form-item label="fenleiyi">
+        <a-input v-model:value="ebook.category1Id" />
       </a-form-item>
+      <a-form-item label="fenleiyi2">
+        <a-input v-model:value="ebook.category2Id" />
+      </a-form-item>
+      <a-form-item label="c">
+        <a-input v-model:value="ebook.docCount" />
+      </a-form-item>
+      <a-form-item label="c">
+        <a-input v-model:value="ebook.viewCount" />
+      </a-form-item>
+      <a-form-item label="c">
+        <a-input v-model:value="ebook.voteCount" />
+      </a-form-item>
+
       <a-form-item label="描述">
         <a-input v-model:value="ebook.description" type="textarea" />
       </a-form-item>
@@ -169,6 +196,31 @@ export default defineComponent({
       modalVisible.value=true;
       ebook.value=record;
     };
+    /**
+     * 新增
+     *
+     */
+    const add =()=>{
+      modalVisible.value=true;
+      ebook.value={};
+    };
+    /**
+     *
+     * 删除
+     */
+    const handleDelete = (id:number) => {
+      axios.delete("/ebook/delete/"+id).then((response) => {
+
+        const data = response.data; // data = commonResp
+        if (data.success) {
+          // 重新加载列表
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        }
+      });
+    };
 
     onMounted(() => {
       handleQuery({
@@ -179,18 +231,24 @@ export default defineComponent({
 
 
     return {
+      //表格类
       ebooks,
       pagination,
       columns,
       loading,
       handleTableChange,
 
+      //红牛
       edit,
+      add,
 
+      //表单类
       ebook,
       modalVisible,
       modalLoading,
       handleModalOk,
+
+      handleDelete,
 
     }
   }

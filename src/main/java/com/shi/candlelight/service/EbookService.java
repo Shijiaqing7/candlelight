@@ -10,6 +10,7 @@ import com.shi.candlelight.req.EbookSaveReq;
 import com.shi.candlelight.resp.EbookQueryResp;
 import com.shi.candlelight.resp.PageResp;
 import com.shi.candlelight.util.CopyUtil;
+import com.shi.candlelight.util.SnowFlake;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -21,6 +22,8 @@ import java.util.List;
 public class EbookService {
     @Resource//将ebookmapper注入进来也可以用jdk自带的resource
     private EbookMapper ebookMapper;
+    @Resource
+    private SnowFlake snowFlake;
     public PageResp<EbookQueryResp> list(EbookQueryReq req){
         EbookExample ebookExample = new EbookExample();//用于添加条件
         EbookExample.Criteria criteria = ebookExample.createCriteria();
@@ -63,6 +66,8 @@ public class EbookService {
         if(ObjectUtils.isEmpty(req.getId())){
             //通过请求参数中id是否有值来判断
             //新增
+            ebook.setId(snowFlake.nextId());
+
             ebookMapper.insert(ebook);//调用insert新增
 
         }else {
@@ -70,8 +75,9 @@ public class EbookService {
             ebookMapper.updateByPrimaryKey(ebook);//调用mapper新增数据 updatebyprimarykey根据id新增
             //因为这个类的参数是Ebook 所以需要将请求类中的数据copy到ebook中 再更新竟来
         }
-
-
+    }
+    public void delete(long id){
+        ebookMapper.deleteByPrimaryKey(id);
 
     }
 

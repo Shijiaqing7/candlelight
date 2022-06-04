@@ -6,10 +6,7 @@ import com.shi.candlelight.resp.CommonResp;
 import com.shi.candlelight.resp.EbookQueryResp;
 import com.shi.candlelight.resp.PageResp;
 import com.shi.candlelight.service.EbookService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -34,6 +31,15 @@ public class EbookController {
     public CommonResp save(@RequestBody EbookSaveReq req) {
         CommonResp resp = new CommonResp<>();
         ebookService.save(req);
+        return resp;
+    }
+    //跟据id删除所以一需要一个id参数
+    @DeleteMapping ("/delete/{id}")
+   //删除接口
+    //下面方法里的参数会自动映射上面的参数 上面传1下面拿到的就是1
+    public CommonResp delete(@PathVariable long id) {
+        CommonResp resp = new CommonResp<>();
+        ebookService.delete(id);
         return resp;
     }
 
